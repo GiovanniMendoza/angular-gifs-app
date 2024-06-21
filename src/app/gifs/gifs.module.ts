@@ -11,7 +11,6 @@ import { CardListComponent } from './components/card-list/card-list.component';
     HomePageComponent,
     searchBoxComponent,
     CardListComponent
-
   ],
   imports: [
     CommonModule

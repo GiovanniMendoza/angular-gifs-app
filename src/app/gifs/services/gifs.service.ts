@@ -12,7 +12,10 @@ export class GifsService {
   private GIPHY_API_KEY: string = 'ZpU2u8yeLYnU311VtXZRDJ5F26I9lB89';
   private serviceUrl: string = 'https://api.giphy.com/v1/gifs';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.loadLocalStorage();
+    console.log('Gif Service Ready');
+  }
 
   get tagsHistory() {
     return [...this._tagsHistory];//Expression expected es para crear una copia del _tagsHistory
@@ -32,9 +35,19 @@ export class GifsService {
     this.saveLocalStorage();
   }
 
-  //ALMACENA EL HISTORIAL DE BUSQUEDA EN EL LOCAL STORAGE
+  //ALMACENA EL HISTORIAL DE BUSQUEDA EN EL LOCAL STORAGE y lo CONVIERTE EN STRING
   private saveLocalStorage():void{
     localStorage.setItem('history', JSON.stringify(this._tagsHistory))
+  }
+
+  //CARGAR EL LOCAL STORAGE
+  private loadLocalStorage():void{
+    if(!localStorage.getItem('history')) return;
+
+    this._tagsHistory = JSON.parse(localStorage.getItem('history')!);
+
+    if(this._tagsHistory.length === 0) return;
+    this.searchTag(this._tagsHistory[0]);
   }
 
   //async searchTag(tag: string): Promise<void> {
